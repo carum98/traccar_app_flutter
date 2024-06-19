@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:traccar_app/views/server_register.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final inputDecoration = InputDecoration(
-      filled: true,
-      floatingLabelBehavior: FloatingLabelBehavior.always,
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 15,
-      ),
-    );
-
     const labelStyle = TextStyle(
       fontSize: 18,
     );
@@ -45,14 +33,14 @@ class LoginView extends StatelessWidget {
                 const SizedBox(height: 20),
                 const Text('Email', style: labelStyle),
                 TextFormField(
-                  decoration: inputDecoration.copyWith(
+                  decoration: const InputDecoration(
                     hintText: 'Email',
                   ),
                 ),
                 const SizedBox(height: 20),
                 const Text('Password', style: labelStyle),
                 TextFormField(
-                  decoration: inputDecoration.copyWith(
+                  decoration: const InputDecoration(
                     hintText: 'Password',
                   ),
                   obscureText: true,
@@ -69,6 +57,15 @@ class LoginView extends StatelessWidget {
                       'Login',
                       style: TextStyle(fontSize: 18),
                     ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      openServerRegister(context);
+                    },
+                    child: const Text('Traccar Server'),
                   ),
                 ),
               ],
