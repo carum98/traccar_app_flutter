@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:traccar_app/core/storage.dart';
 
 Future<void> openServerRegister(BuildContext context) async {
   final isLargeScreen = MediaQuery.of(context).size.width > 600;
@@ -23,7 +23,7 @@ class ServerRegisterView extends StatefulWidget {
 }
 
 class _ServerRegisterViewState extends State<ServerRegisterView> {
-  final storage = const FlutterSecureStorage();
+  final storage = Storage();
   final _serverUrlController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -31,7 +31,7 @@ class _ServerRegisterViewState extends State<ServerRegisterView> {
   void initState() {
     super.initState();
 
-    storage.read(key: 'serverUrl').then((value) {
+    storage.read(StorageKey.serverUrl).then((value) {
       if (value != null) {
         _serverUrlController.text = value;
       }
@@ -47,7 +47,10 @@ class _ServerRegisterViewState extends State<ServerRegisterView> {
 
   void _register() {
     if (_formKey.currentState!.validate()) {
-      storage.write(key: 'serverUrl', value: _serverUrlController.text);
+      storage.write(
+        key: StorageKey.serverUrl,
+        value: _serverUrlController.text,
+      );
       Navigator.of(context).pop();
     }
   }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:traccar_app/core/dependency_inyection.dart';
+import 'package:traccar_app/core/theme.dart';
 
-import 'views/login.dart';
-import 'views/home.dart';
+import 'core/router_generator.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(DI(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,30 +15,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Traccar',
-      theme: ThemeData(
-        colorSchemeSeed: Colors.blue,
-        brightness: Brightness.dark,
-        useMaterial3: true,
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
-          ),
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
-      routes: <String, WidgetBuilder>{
-        '/': (_) => const HomePage(),
-        '/login': (_) => const LoginView(),
+    final state = DI.of(context).state;
+
+    return ListenableBuilder(
+      listenable: state,
+      builder: (_, __) {
+        return MaterialApp(
+          title: 'Traccar',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: state.themeMode,
+          onGenerateRoute: RouterGenerator.generate,
+          navigatorKey: state.navigatorKey,
+        );
       },
     );
   }

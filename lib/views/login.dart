@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:traccar_app/core/dependency_inyection.dart';
+import 'package:traccar_app/core/router_generator.dart';
 import 'package:traccar_app/views/server_register.dart';
 
 class LoginView extends StatelessWidget {
@@ -6,6 +8,9 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    String email = '', password = '';
+
     const labelStyle = TextStyle(
       fontSize: 18,
     );
@@ -16,6 +21,7 @@ class LoginView extends StatelessWidget {
         child: SizedBox(
           width: 300,
           child: Form(
+            key: formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,6 +42,7 @@ class LoginView extends StatelessWidget {
                   decoration: const InputDecoration(
                     hintText: 'Email',
                   ),
+                  onChanged: (value) => email = value,
                 ),
                 const SizedBox(height: 20),
                 const Text('Password', style: labelStyle),
@@ -44,14 +51,28 @@ class LoginView extends StatelessWidget {
                     hintText: 'Password',
                   ),
                   obscureText: true,
+                  onChanged: (value) => password = value,
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Login
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        final isAuth = await DI
+                            .of(context)
+                            .authService
+                            .login(email, password);
+
+                        if (isAuth) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            HOME_VIEW,
+                            (route) => false,
+                          );
+                        }
+                      }
                     },
                     child: const Text(
                       'Login',
