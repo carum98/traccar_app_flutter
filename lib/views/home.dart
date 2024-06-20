@@ -1,13 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:traccar_app/core/dependency_inyection.dart';
 import 'package:traccar_app/core/router_generator.dart';
+import 'package:traccar_app/models/devices.dart';
 import 'package:traccar_app/widgets/map.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final devices = ValueNotifier<List<Devices>>([]);
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    devices.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    DI.of(context).apiService.getDevices().then((value) {
+      devices.value = value;
+    });
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -42,9 +61,11 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Stack(
+      body: Stack(
         children: [
-          TraccarMap(),
+          TraccarMap(
+            markers: devices,
+          ),
         ],
       ),
     );

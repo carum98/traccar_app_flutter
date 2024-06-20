@@ -5,6 +5,7 @@ import 'package:traccar_app/core/global_state.dart';
 import 'package:traccar_app/core/http_client.dart';
 import 'package:traccar_app/core/router_generator.dart';
 import 'package:traccar_app/core/storage.dart';
+import 'package:traccar_app/services/api.dart';
 import 'package:traccar_app/services/auth.dart';
 
 class DI extends InheritedWidget {
@@ -14,6 +15,7 @@ class DI extends InheritedWidget {
   late final HttpClient httpClient;
 
   late final AuthService authService;
+  late final ApiService apiService;
 
   DI({
     super.key,
@@ -25,6 +27,10 @@ class DI extends InheritedWidget {
     authService = AuthService(
       httpClient: httpClient,
       storage: storage,
+    );
+
+    apiService = ApiService(
+      client: httpClient,
     );
 
     initialize();
