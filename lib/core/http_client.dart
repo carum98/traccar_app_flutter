@@ -45,4 +45,19 @@ class HttpClient {
 
     return response;
   }
+
+  Future<http.Response> delete(String path) async {
+    final response = await _client.delete(
+      Uri.parse('${_state.apiUrl}$path'),
+      headers: _headers,
+    );
+
+    final statusCode = response.statusCode;
+
+    if (statusCode < 200 || statusCode > 400) {
+      throw Exception("Error while fetching data");
+    }
+
+    return response;
+  }
 }

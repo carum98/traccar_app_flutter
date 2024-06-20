@@ -66,6 +66,8 @@ class LoginView extends StatelessWidget {
                             .login(email, password);
 
                         if (isAuth) {
+                          await DI.of(context).syncStateStorage();
+
                           Navigator.pushNamedAndRemoveUntil(
                             context,
                             HOME_VIEW,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:traccar_app/core/dependency_inyection.dart';
+import 'package:traccar_app/core/router_generator.dart';
 import 'package:traccar_app/widgets/map.dart';
 
 class HomePage extends StatelessWidget {
@@ -24,9 +26,17 @@ class HomePage extends StatelessWidget {
                 ),
               ];
             },
-            onSelected: (String value) {
+            onSelected: (String value) async {
               if (value == 'logout') {
-                // Logout
+                final value = await DI.of(context).authService.logout();
+
+                if (value) {
+                  await DI.of(context).syncStateStorage();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    LOGIN_VIEW,
+                    (route) => false,
+                  );
+                }
               }
             },
           ),

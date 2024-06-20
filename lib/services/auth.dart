@@ -42,4 +42,15 @@ class AuthService {
 
     return response.statusCode == 200;
   }
+
+  Future<bool> logout() async {
+    try {
+      await _httpClient.delete('/session');
+      await _storage.delete(StorageKey.cookies);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

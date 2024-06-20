@@ -33,13 +33,7 @@ class DI extends InheritedWidget {
   Future<void> initialize() async {
     await Future.delayed(const Duration(seconds: 1));
 
-    final [serverUrl, cookies] = await Future.wait([
-      storage.read(StorageKey.serverUrl),
-      storage.read(StorageKey.cookies),
-    ]);
-
-    if (serverUrl != null) state.setApiUrl(serverUrl);
-    if (cookies != null) state.setCookies(cookies);
+    await syncStateStorage();
 
     authService.isAuthenticated().then((value) {
       state.navigatorKey.currentState?.pushNamedAndRemoveUntil(
@@ -47,6 +41,16 @@ class DI extends InheritedWidget {
         (route) => false,
       );
     });
+  }
+
+  Future<void> syncStateStorage() async {
+    final [serverUrl, cookies] = await Future.wait([
+      storage.read(StorageKey.serverUrl),
+      storage.read(StorageKey.cookies),
+    ]);
+
+    if (serverUrl != null) state.setApiUrl(serverUrl);
+    if (cookies != null) state.setCookies(cookies);
   }
 
   static DI of(BuildContext context) {
