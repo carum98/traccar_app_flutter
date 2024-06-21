@@ -15,9 +15,12 @@ class HttpClient {
         'Cookie': _state.cookies,
       };
 
-  Future<http.Response> get(String path) async {
+  Future<http.Response> get(
+    String path, {
+    Map<String, dynamic>? query,
+  }) async {
     final response = await _client.get(
-      Uri.parse('${_state.apiUrl}$path'),
+      Uri.parse('${_state.apiUrl}$path').replace(queryParameters: query),
       headers: _headers,
     );
 
@@ -30,9 +33,13 @@ class HttpClient {
     return response;
   }
 
-  Future<http.Response> post(String path, {Map<String, String>? body}) async {
+  Future<http.Response> post(
+    String path, {
+    Map<String, String>? body,
+    Map<String, dynamic>? query,
+  }) async {
     final response = await _client.post(
-      Uri.parse('${_state.apiUrl}$path'),
+      Uri.parse('${_state.apiUrl}$path').replace(queryParameters: query),
       body: body,
       headers: _headers,
     );

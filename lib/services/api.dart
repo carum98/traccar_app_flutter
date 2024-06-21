@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:traccar_app/core/http_client.dart';
 import 'package:traccar_app/models/devices.dart';
+import 'package:traccar_app/models/position.dart';
 
 class ApiService {
   final HttpClient _client;
@@ -32,5 +33,23 @@ class ApiService {
     }).toList();
 
     return devices;
+  }
+
+  Future<List<Position>> getPositions({
+    required int deviceId,
+    required DateTime from,
+    required DateTime to,
+  }) async {
+    final response = await _client.get('/positions', query: {
+      'deviceId': deviceId.toString(),
+      'from': from.toUtc().toIso8601String(),
+      'to': to.toUtc().toIso8601String(),
+    });
+
+    final positionsJson = jsonDecode(response.body) as List;
+
+    return positionsJson
+        .map((position) => Position.fromJson(position))
+        .toList();
   }
 }
