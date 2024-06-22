@@ -18,9 +18,11 @@ class _AppbarHomeState extends State<AppbarHome> {
     return AppBar(
       leading: Padding(
         padding: const EdgeInsets.all(10),
-        child: Image.asset('assets/logo.png'),
+        child: Image.asset(
+          'assets/logo.png',
+          color: Theme.of(context).textTheme.displayMedium?.color,
+        ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       title: const Text('Traccar'),
       actions: [
         PopupMenuButton<String>(
@@ -29,6 +31,10 @@ class _AppbarHomeState extends State<AppbarHome> {
               const PopupMenuItem<String>(
                 value: 'logout',
                 child: Text('Logout'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'theme',
+                child: Text('Theme'),
               ),
             ];
           },
@@ -43,6 +49,16 @@ class _AppbarHomeState extends State<AppbarHome> {
                   (route) => false,
                 );
               }
+            }
+
+            if (value == 'theme') {
+              final state = DI.of(context).state;
+
+              state.setThemeMode(
+                state.themeMode == ThemeMode.light
+                    ? ThemeMode.dark
+                    : ThemeMode.light,
+              );
             }
           },
         ),

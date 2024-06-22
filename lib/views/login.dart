@@ -11,12 +11,8 @@ class LoginView extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     String email = '', password = '';
 
-    const labelStyle = TextStyle(
-      fontSize: 18,
-    );
-
     return Material(
-      color: Theme.of(context).colorScheme.inversePrimary,
+      color: Theme.of(context).colorScheme.surface,
       child: Center(
         child: SizedBox(
           width: 300,
@@ -30,14 +26,20 @@ class LoginView extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('assets/logo.png'),
+                      Image.asset(
+                        'assets/logo.png',
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       const SizedBox(width: 10),
-                      Image.asset('assets/logo_text.png'),
+                      Image.asset(
+                        'assets/logo_text.png',
+                        color: Theme.of(context).colorScheme.primary,
+                      )
                     ],
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Email', style: labelStyle),
+                const Text('Email'),
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Email',
@@ -45,7 +47,7 @@ class LoginView extends StatelessWidget {
                   onChanged: (value) => email = value,
                 ),
                 const SizedBox(height: 20),
-                const Text('Password', style: labelStyle),
+                const Text('Password'),
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Password',

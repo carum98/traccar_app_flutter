@@ -15,9 +15,7 @@ class RouterGenerator {
         return MaterialPageRoute(builder: (_) => const LoginView());
       case TEMP_VIEW:
         return MaterialPageRoute(
-          builder: (context) => Scaffold(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          ),
+          builder: (context) => const Scaffold(),
         );
       default:
         return _errorRoute();
