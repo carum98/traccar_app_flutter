@@ -16,10 +16,11 @@ class TileProviderPicker extends StatelessWidget {
             color: Theme.of(context).colorScheme.surface,
             shape: const CircleBorder(),
           ),
+          padding: const EdgeInsets.all(5),
           child: IconButton(
             onPressed: open,
             icon: const Icon(Icons.layers_rounded),
-            iconSize: 25,
+            iconSize: 30,
           ),
         );
       },

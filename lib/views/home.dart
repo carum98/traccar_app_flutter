@@ -5,6 +5,7 @@ import 'package:traccar_app/widgets/bottom_sheet.dart';
 import 'package:traccar_app/widgets/list_positions.dart';
 import 'package:traccar_app/widgets/map.dart';
 import 'package:traccar_app/widgets/position_player.dart';
+import 'package:traccar_app/widgets/sidebar.dart';
 import 'package:traccar_app/widgets/tile_provider_picker.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,21 +17,53 @@ class HomePage extends StatelessWidget {
       appBar: const AppbarHome(),
       body: MapState(
         context: context,
-        child: const Stack(
-          children: [
-            TraccarMap(),
-            Positioned(
-              right: 15,
-              bottom: 180,
-              child: TileProviderPicker(),
-            ),
-            BottomSheetPermanent(
+        child: LayoutBuilder(
+          builder: (_, constraints) {
+            final isMobile = constraints.maxWidth < 600;
+
+            const mobileLayout = [
+              Positioned(
+                right: 15,
+                bottom: 180,
+                child: TileProviderPicker(),
+              ),
+              BottomSheetPermanent(
+                children: [
+                  PositionPlayer(),
+                  Expanded(child: ListPositions()),
+                ],
+              ),
+            ];
+
+            const deskLayout = [
+              Positioned(
+                right: 15,
+                bottom: 15,
+                child: TileProviderPicker(),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: FittedBox(
+                      child: PositionPlayer(),
+                    ),
+                  ),
+                ),
+              ),
+              Sidebar(
+                child: ListPositions(),
+              )
+            ];
+
+            return Stack(
               children: [
-                PositionPlayer(),
-                Expanded(child: ListPositions()),
+                const TraccarMap(),
+                ...isMobile ? mobileLayout : deskLayout,
               ],
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
