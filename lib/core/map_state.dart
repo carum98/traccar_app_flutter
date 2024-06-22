@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traccar_app/core/dependency_inyection.dart';
+import 'package:traccar_app/core/tile_providers.dart';
 import 'package:traccar_app/models/devices.dart';
 import 'package:traccar_app/models/position.dart';
 import 'package:traccar_app/services/api.dart';
@@ -7,8 +8,11 @@ import 'package:traccar_app/services/api.dart';
 class MapState extends InheritedWidget {
   final ApiService _apiService;
 
+  final tileLayerProvider = ValueNotifier(TileLayerProvider.openStreetMap);
+
   final ValueNotifier<List<Devices>> devices = ValueNotifier([]);
   final ValueNotifier<List<Position>> positions = ValueNotifier([]);
+
   final params = MapStateParams();
 
   MapState({
@@ -30,6 +34,10 @@ class MapState extends InheritedWidget {
 
   void setDevice(Devices device) {
     params.setDevice = device;
+  }
+
+  void setTileLayerProvider(TileLayerProvider provider) {
+    tileLayerProvider.value = provider;
   }
 
   Future<void> fetchDevices() async {
