@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Position {
   final int id;
   final double latitude;
@@ -16,6 +18,10 @@ class Position {
     required this.course,
     required this.attributes,
   });
+
+  String get date => DateFormat("MMM d 'at' h:mm a")
+      .format(DateTime.parse(fixTime))
+      .toLowerCase();
 
   factory Position.fromJson(Map<String, dynamic> json) {
     return Position(
