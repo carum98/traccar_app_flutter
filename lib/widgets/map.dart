@@ -30,7 +30,18 @@ class TraccarMap extends StatelessWidget {
             markers: items
                 .map((item) => MarkerDevice(
                       device: item,
-                      onTap: () => state.setDevice(item),
+                      onTap: () {
+                        state.setDevice(item);
+                        showBottomSheet(
+                          context: context,
+                          builder: (_) => Container(
+                            height: 200,
+                            child: Center(
+                              child: Text(item.name),
+                            ),
+                          ),
+                        );
+                      },
                     ))
                 .toList(),
           ),

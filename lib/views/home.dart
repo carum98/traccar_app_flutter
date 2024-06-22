@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:traccar_app/core/map_state.dart';
 import 'package:traccar_app/widgets/appbar_home.dart';
+import 'package:traccar_app/widgets/bottom_sheet_scaffold.dart';
 import 'package:traccar_app/widgets/map.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +16,13 @@ class _HomePageState extends State<HomePage> {
         child: const Stack(
           children: [
             TraccarMap(),
+          ],
+        ),
+      ),
+      bottomSheet: const BottomSheetScaffold(
+        child: Column(
+          children: [
+            Text('Bottom Sheet 2'),
           ],
         ),
       ),
