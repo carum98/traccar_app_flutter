@@ -3,10 +3,10 @@ import 'package:traccar_app/core/dependency_inyection.dart';
 import 'package:traccar_app/core/tile_providers.dart';
 import 'package:traccar_app/models/devices.dart';
 import 'package:traccar_app/models/position.dart';
-import 'package:traccar_app/services/api.dart';
+import 'package:traccar_app/services/traccar_api.dart';
 
 class MapState extends InheritedWidget {
-  final ApiService _apiService;
+  final TraccarService _apiService;
 
   final tileLayerProvider = ValueNotifier(TileLayerProvider.openStreetMap);
 
@@ -19,7 +19,7 @@ class MapState extends InheritedWidget {
     super.key,
     required BuildContext context,
     required super.child,
-  }) : _apiService = DI.of(context).apiService {
+  }) : _apiService = DI.of(context).traccarService {
     fetchDevices();
 
     params.addListener(() => fetchPositions());
