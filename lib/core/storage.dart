@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 enum StorageKey {
   serverUrl,
   cookies,
+  token,
 }
 
 class Storage {

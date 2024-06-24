@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traccar_app/core/dependency_inyection.dart';
-import 'package:traccar_app/core/tile_providers.dart';
+import 'package:traccar_app/utils/tile_providers.dart';
 import 'package:traccar_app/models/devices.dart';
 import 'package:traccar_app/models/position.dart';
 import 'package:traccar_app/services/traccar_api.dart';

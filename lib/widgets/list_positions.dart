@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:traccar_app/core/map_state.dart';
+import 'package:traccar_app/state/map_state.dart';
 import 'package:traccar_app/models/position.dart';
 
 class ListPositions extends StatelessWidget {

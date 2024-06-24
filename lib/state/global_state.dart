@@ -1,4 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+enum AuthenticationType {
+  cookies,
+  token,
+}
 
 class GlobalState extends ChangeNotifier {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -9,11 +15,15 @@ class GlobalState extends ChangeNotifier {
   bool _showBottomBar = true;
   bool get showBottomBar => _showBottomBar;
 
+  final _authenticationType =
+      kIsWeb ? AuthenticationType.token : AuthenticationType.cookies;
+  AuthenticationType get authenticationType => _authenticationType;
+
   String _apiUrl = '';
   String get apiUrl => _apiUrl;
 
-  String _cookies = '';
-  String get cookies => _cookies;
+  String _authenticate = '';
+  String get authenticate => _authenticate;
 
   void setThemeMode(ThemeMode value) {
     _themeMode = value;
@@ -29,7 +39,7 @@ class GlobalState extends ChangeNotifier {
     _apiUrl = value;
   }
 
-  void setCookies(String value) {
-    _cookies = value;
+  void setAuthenticate(String value) {
+    _authenticate = value;
   }
 }

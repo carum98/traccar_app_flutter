@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:traccar_app/core/global_state.dart';
+import 'package:traccar_app/state/global_state.dart';
 import 'package:traccar_app/core/http_client.dart';
 import 'package:traccar_app/core/router_generator.dart';
 import 'package:traccar_app/core/storage.dart';
@@ -22,11 +22,17 @@ class DI extends InheritedWidget {
     required super.child,
   }) {
     storage = Storage();
-    httpClient = HttpClient(state: state);
+
+    final httpBaseClient = HttpBaseClient(state: state);
+
+    httpClient = HttpClient(
+      httpBaseClient: httpBaseClient,
+    );
 
     authService = AuthService(
-      httpClient: httpClient,
+      httpBaseClient: httpBaseClient,
       storage: storage,
+      state: state,
     );
 
     traccarService = TraccarService(
@@ -50,13 +56,15 @@ class DI extends InheritedWidget {
   }
 
   Future<void> syncStateStorage() async {
-    final [serverUrl, cookies] = await Future.wait([
+    final [serverUrl, cookies, token] = await Future.wait([
       storage.read(StorageKey.serverUrl),
       storage.read(StorageKey.cookies),
+      storage.read(StorageKey.token),
     ]);
 
     if (serverUrl != null) state.setApiUrl(serverUrl);
-    if (cookies != null) state.setCookies(cookies);
+    if (cookies != null) state.setAuthenticate(cookies);
+    if (token != null) state.setAuthenticate(token);
   }
 
   static DI of(BuildContext context) {

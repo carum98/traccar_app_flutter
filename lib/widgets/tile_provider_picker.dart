@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:traccar_app/core/map_state.dart';
-import 'package:traccar_app/core/tile_providers.dart';
+import 'package:traccar_app/state/map_state.dart';
+import 'package:traccar_app/utils/tile_providers.dart';
 
 import 'common/popover.dart';
 
