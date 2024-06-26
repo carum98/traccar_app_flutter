@@ -3,7 +3,7 @@ import 'package:traccar_app/state/map_state.dart';
 import 'package:traccar_app/widgets/appbar_home.dart';
 import 'package:traccar_app/widgets/bottom_sheet.dart';
 import 'package:traccar_app/widgets/list_positions.dart';
-import 'package:traccar_app/widgets/map.dart';
+import 'package:traccar_app/widgets/traccar_map.dart';
 import 'package:traccar_app/widgets/position_player.dart';
 import 'package:traccar_app/widgets/sidebar.dart';
 import 'package:traccar_app/widgets/tile_provider_picker.dart';
