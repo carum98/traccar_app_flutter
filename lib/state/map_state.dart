@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:traccar_app/core/dependency_inyection.dart';
 import 'package:traccar_app/utils/tile_providers.dart';
 import 'package:traccar_app/models/devices.dart';
@@ -6,12 +8,14 @@ import 'package:traccar_app/models/position.dart';
 import 'package:traccar_app/services/traccar_api.dart';
 
 class MapState extends InheritedWidget {
+  final MapController mapController = MapController();
   final TraccarService _apiService;
 
   final tileLayerProvider = ValueNotifier(TileLayerProvider.openStreetMap);
 
-  final ValueNotifier<List<Devices>> devices = ValueNotifier([]);
-  final ValueNotifier<List<Position>> positions = ValueNotifier([]);
+  final devices = ValueNotifier(List<Devices>.empty());
+  final positions = ValueNotifier(List<Position>.empty());
+  final activePosition = ValueNotifier<Position?>(null);
 
   final params = MapStateParams();
 
@@ -40,6 +44,15 @@ class MapState extends InheritedWidget {
     tileLayerProvider.value = provider;
   }
 
+  void moveToPosition(Position position) {
+    activePosition.value = position;
+
+    mapController.move(
+      LatLng(position.latitude, position.longitude),
+      17,
+    );
+  }
+
   Future<void> fetchDevices() async {
     devices.value = await _apiService.getDevices();
   }
@@ -55,7 +68,7 @@ class MapState extends InheritedWidget {
 
 class MapStateParams extends ChangeNotifier {
   Devices? _device;
-  DateTime _from = DateTime.now().subtract(const Duration(days: 3));
+  DateTime _from = DateTime.now().subtract(const Duration(days: 1));
   DateTime _to = DateTime.now();
 
   Devices? get device => _device;

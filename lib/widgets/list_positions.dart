@@ -12,11 +12,16 @@ class ListPositions extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: state.positions,
       builder: (_, items, __) {
-        return ListView.builder(
+        return ListView.separated(
+          padding: const EdgeInsets.all(10),
           itemCount: items.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 10),
           itemBuilder: (_, index) {
             return _PositionTile(
               item: items[index],
+              onTab: () {
+                state.moveToPosition(items[index]);
+              },
             );
           },
         );
@@ -27,20 +32,28 @@ class ListPositions extends StatelessWidget {
 
 class _PositionTile extends StatelessWidget {
   final Position item;
+  final VoidCallback onTab;
 
   const _PositionTile({
     required this.item,
+    required this.onTab,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTab,
+      tileColor: Theme.of(context).colorScheme.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       title: Text(
         '${item.latitude}, ${item.longitude}',
         style: const TextStyle(
           fontSize: 17,
           fontWeight: FontWeight.w700,
         ),
+        overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
         item.date,

@@ -16,6 +16,7 @@ class TraccarMap extends StatelessWidget {
     final state = MapState.of(context);
 
     return FlutterMap(
+      mapController: state.mapController,
       options: const MapOptions(
         initialCenter: LatLng(9.950685409604112, -84.12032421989458),
         initialZoom: 17,
@@ -51,7 +52,30 @@ class TraccarMap extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        ValueListenableBuilder<List<Position>>(
+          valueListenable: state.positions,
+          builder: (_, items, __) => MarkerLayer(
+            markers: items
+                .where((item) => item.attributes.motion)
+                .map((item) => MarkerCourse(
+                      position: item,
+                      onTap: () => state.moveToPosition(item),
+                    ))
+                .toList(),
+          ),
+        ),
+        ValueListenableBuilder<Position?>(
+          valueListenable: state.activePosition,
+          builder: (_, item, __) => MarkerLayer(markers: [
+            if (item != null)
+              MarkerCourse(
+                position: item,
+                active: true,
+                onTap: () => state.moveToPosition(item),
+              ),
+          ]),
+        ),
       ],
     );
   }
@@ -80,6 +104,32 @@ class MarkerDevice extends Marker {
                       : Icons.location_on_sharp,
                   color: Colors.black,
                 ),
+              ),
+            ),
+          ),
+        );
+}
+
+class MarkerCourse extends Marker {
+  MarkerCourse({
+    super.key,
+    required Position position,
+    required VoidCallback onTap,
+    bool? active,
+  }) : super(
+          width: 20,
+          height: 20,
+          point: LatLng(position.latitude, position.longitude),
+          child: Transform.rotate(
+            angle: position.course,
+            child: GestureDetector(
+              onTap: onTap,
+              child: Icon(
+                Icons.navigation_rounded,
+                color: active == true
+                    ? Colors.red
+                    : const Color.fromARGB(255, 0, 64, 175),
+                size: 20,
               ),
             ),
           ),
