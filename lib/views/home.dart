@@ -30,7 +30,12 @@ class HomePage extends StatelessWidget {
               BottomSheetPermanent(
                 children: [
                   PositionPlayer(),
-                  Expanded(child: ListPositions()),
+                  Expanded(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: ListPositions(),
+                    ),
+                  ),
                 ],
               ),
             ];

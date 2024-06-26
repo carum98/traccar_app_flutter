@@ -13,6 +13,7 @@ class ListPositions extends StatelessWidget {
       valueListenable: state.positions,
       builder: (_, items, __) {
         return ListView.separated(
+          controller: state.scrollController,
           padding: const EdgeInsets.all(10),
           itemCount: items.length,
           separatorBuilder: (_, __) => const SizedBox(height: 10),

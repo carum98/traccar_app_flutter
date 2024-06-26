@@ -8,8 +8,10 @@ import 'package:traccar_app/models/position.dart';
 import 'package:traccar_app/services/traccar_api.dart';
 
 class MapState extends InheritedWidget {
-  final MapController mapController = MapController();
   final TraccarService _apiService;
+
+  final mapController = MapController();
+  final scrollController = ScrollController();
 
   final tileLayerProvider = ValueNotifier(TileLayerProvider.openStreetMap);
 
@@ -50,6 +52,14 @@ class MapState extends InheritedWidget {
     mapController.move(
       LatLng(position.latitude, position.longitude),
       17,
+    );
+
+    final index = positions.value.indexOf(position);
+
+    scrollController.animateTo(
+      index * 80.0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
     );
   }
 
