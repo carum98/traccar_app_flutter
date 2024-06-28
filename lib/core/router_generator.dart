@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:traccar_app/state/map_state.dart';
 import 'package:traccar_app/views/home.dart';
 import 'package:traccar_app/views/login.dart';
 
@@ -10,7 +11,12 @@ class RouterGenerator {
   static Route<dynamic> generate(RouteSettings settings) {
     switch (settings.name) {
       case HOME_VIEW:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(
+          builder: (context) => MapState(
+            context: context,
+            child: const HomePage(),
+          ),
+        );
       case LOGIN_VIEW:
         return MaterialPageRoute(builder: (_) => const LoginView());
       case TEMP_VIEW:
