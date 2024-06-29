@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class BottomSheetPermanent extends StatefulWidget {
+  final ValueNotifier<bool> isVisible;
   final List<Widget> children;
-  const BottomSheetPermanent({super.key, required this.children});
+
+  const BottomSheetPermanent({
+    super.key,
+    required this.children,
+    required this.isVisible,
+  });
 
   @override
   State<BottomSheetPermanent> createState() => _BottomSheetPermanentState();
@@ -26,12 +32,15 @@ class _BottomSheetPermanentState extends State<BottomSheetPermanent> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
-    return ValueListenableBuilder(
-      valueListenable: _isOpen,
-      builder: (_, value, __) {
+    return AnimatedBuilder(
+      animation: Listenable.merge([_isOpen, widget.isVisible]),
+      builder: (_, __) {
+        final double bottom =
+            _isOpen.value ? 0 : -height * (widget.isVisible.value ? 0.5 : 0.8);
+
         return AnimatedPositioned(
           duration: const Duration(milliseconds: 300),
-          bottom: value ? 0 : -height * 0.5,
+          bottom: bottom,
           left: 0,
           right: 0,
           child: BottomSheet(
@@ -46,7 +55,7 @@ class _BottomSheetPermanentState extends State<BottomSheetPermanent> {
                     onPressed: toggle,
                     iconSize: 30,
                     icon: Icon(
-                      value
+                      _isOpen.value
                           ? Icons.keyboard_arrow_down
                           : Icons.keyboard_arrow_up,
                     ),

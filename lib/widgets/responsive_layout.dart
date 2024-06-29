@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
-import 'bottom_sheet.dart';
-import 'sidebar.dart';
+import 'common/bottom_sheet.dart';
+import 'common/sidebar.dart';
+import 'common/sliding_panel.dart';
 
-class AddaptativeLayout extends StatelessWidget {
+class ResponsiveLayout extends StatelessWidget {
   final Widget traccarMap;
   final Widget positions;
   final Widget player;
   final Widget tileProvider;
+  final ValueNotifier<bool> hasData;
 
-  const AddaptativeLayout({
+  const ResponsiveLayout({
     super.key,
     required this.traccarMap,
     required this.positions,
     required this.player,
     required this.tileProvider,
+    required this.hasData,
   });
 
   @override
@@ -34,7 +37,7 @@ class AddaptativeLayout extends StatelessWidget {
 }
 
 class _LandscapeLayout extends StatelessWidget {
-  final AddaptativeLayout layout;
+  final ResponsiveLayout layout;
   const _LandscapeLayout(this.layout);
 
   @override
@@ -42,23 +45,30 @@ class _LandscapeLayout extends StatelessWidget {
     return Stack(
       children: [
         layout.traccarMap,
-        Positioned(
-          right: 15,
-          bottom: 15,
-          child: layout.tileProvider,
-        ),
         Align(
-          alignment: Alignment.bottomCenter,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: FittedBox(
-                child: layout.player,
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: layout.tileProvider,
+          ),
+        ),
+        SlidingPanel(
+          direction: SlideDirection.bottom,
+          isVisible: layout.hasData,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: FittedBox(
+                  child: layout.player,
+                ),
               ),
             ),
           ),
         ),
         Sidebar(
+          isVisible: layout.hasData,
           child: layout.positions,
         )
       ],
@@ -67,7 +77,7 @@ class _LandscapeLayout extends StatelessWidget {
 }
 
 class _PortraitLayout extends StatelessWidget {
-  final AddaptativeLayout layout;
+  final ResponsiveLayout layout;
   const _PortraitLayout(this.layout);
 
   @override
@@ -75,12 +85,20 @@ class _PortraitLayout extends StatelessWidget {
     return Stack(
       children: [
         layout.traccarMap,
-        Positioned(
-          right: 15,
-          bottom: 180,
+        ValueListenableBuilder(
+          valueListenable: layout.hasData,
+          builder: (_, value, child) {
+            return AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              right: 15,
+              bottom: value ? 180 : 15,
+              child: layout.tileProvider,
+            );
+          },
           child: layout.tileProvider,
         ),
         BottomSheetPermanent(
+          isVisible: layout.hasData,
           children: [
             layout.player,
             Expanded(

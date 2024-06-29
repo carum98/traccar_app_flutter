@@ -19,6 +19,8 @@ class MapState extends InheritedWidget {
   final positions = ValueNotifier(List<Position>.empty());
   final activePosition = ValueNotifier<Position?>(null);
 
+  final hasData = ValueNotifier(false);
+
   final params = MapStateParams();
 
   MapState({
@@ -73,6 +75,8 @@ class MapState extends InheritedWidget {
       from: params.from,
       to: params.to,
     );
+
+    hasData.value = positions.value.isNotEmpty;
   }
 }
 
