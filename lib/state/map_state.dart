@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:traccar_app/core/dependency_inyection.dart';
 import 'package:traccar_app/utils/tile_providers.dart';
@@ -70,6 +71,8 @@ class MapState extends InheritedWidget {
   }
 
   Future<void> fetchPositions() async {
+    if (params.device == null) return;
+
     positions.value = await _apiService.getPositions(
       deviceId: params.device!.id,
       from: params.from,
@@ -80,6 +83,8 @@ class MapState extends InheritedWidget {
   }
 }
 
+typedef DateRange = ({DateTime from, DateTime to});
+
 class MapStateParams extends ChangeNotifier {
   Devices? _device;
   DateTime _from = DateTime.now().subtract(const Duration(days: 1));
@@ -89,7 +94,12 @@ class MapStateParams extends ChangeNotifier {
   DateTime get from => _from;
   DateTime get to => _to;
 
-  set dateRange(({DateTime from, DateTime to}) value) {
+  String get fromText =>
+      DateFormat("MMM d',' h:mm a").format(_from).toLowerCase();
+
+  String get toText => DateFormat("MMM d',' h:mm a").format(_to).toLowerCase();
+
+  set dateRange(DateRange value) {
     _from = value.from;
     _to = value.to;
     notifyListeners();

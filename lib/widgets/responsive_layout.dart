@@ -9,6 +9,7 @@ class ResponsiveLayout extends StatelessWidget {
   final Widget positions;
   final Widget player;
   final Widget tileProvider;
+  final Widget dateRangePicker;
   final ValueNotifier<bool> hasData;
 
   const ResponsiveLayout({
@@ -17,6 +18,7 @@ class ResponsiveLayout extends StatelessWidget {
     required this.positions,
     required this.player,
     required this.tileProvider,
+    required this.dateRangePicker,
     required this.hasData,
   });
 
@@ -53,6 +55,21 @@ class _LandscapeLayout extends StatelessWidget {
           ),
         ),
         SlidingPanel(
+          direction: SlideDirection.top,
+          isVisible: layout.hasData,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: FittedBox(
+                  child: layout.dateRangePicker,
+                ),
+              ),
+            ),
+          ),
+        ),
+        SlidingPanel(
           direction: SlideDirection.bottom,
           isVisible: layout.hasData,
           child: Align(
@@ -85,6 +102,19 @@ class _PortraitLayout extends StatelessWidget {
     return Stack(
       children: [
         layout.traccarMap,
+        SlidingPanel(
+          direction: SlideDirection.top,
+          isVisible: layout.hasData,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: layout.dateRangePicker,
+              ),
+            ),
+          ),
+        ),
         ValueListenableBuilder(
           valueListenable: layout.hasData,
           builder: (_, value, child) {

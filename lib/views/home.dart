@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traccar_app/state/map_state.dart';
+import 'package:traccar_app/widgets/date_range_picker.dart';
 import 'package:traccar_app/widgets/responsive_layout.dart';
 import 'package:traccar_app/widgets/appbar_home.dart';
 import 'package:traccar_app/widgets/list_positions.dart';
@@ -21,6 +22,7 @@ class HomePage extends StatelessWidget {
         positions: const ListPositions(),
         player: const PositionPlayer(),
         tileProvider: const TileProviderPicker(),
+        dateRangePicker: const DateRangePicker(),
         hasData: state.hasData,
       ),
     );
