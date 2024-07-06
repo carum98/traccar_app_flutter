@@ -88,8 +88,8 @@ typedef DateRange = ({DateTime from, DateTime to});
 
 class MapStateParams extends ChangeNotifier {
   Devices? _device;
-  DateTime _from = DateTime.now().subtract(const Duration(days: 1));
-  DateTime _to = DateTime.now();
+  DateTime _from = DateTime.now().copyWith(hour: 0, minute: 0);
+  DateTime _to = DateTime.now().copyWith(hour: 23, minute: 59);
 
   Devices? get device => _device;
   DateTime get from => _from;

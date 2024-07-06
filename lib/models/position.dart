@@ -20,7 +20,7 @@ class Position {
   });
 
   String get date => DateFormat("MMM d 'at' h:mm a")
-      .format(DateTime.parse(fixTime))
+      .format(DateTime.parse(fixTime).toLocal())
       .toLowerCase();
 
   factory Position.fromJson(Map<String, dynamic> json) {
