@@ -1,16 +1,20 @@
-# traccar_app_flutter
+# Traccar App -- Flutter
 
-A new Flutter project.
+This app is a client for [Traccar](https://www.traccar.org/), an open-source GPS tracking platform. The app is built with Flutter and Dart.
 
-## Getting Started
+## Platforms
+* Android
+* iOS
+* Web
+* Windows
+* Linux
+* macOS
 
-This project is a starting point for a Flutter application.
+## Features
+* Dark mode
+* Multiple map providers (Google Maps, OpenStreetMap, Carto, Stadia)
+* Positions animation (play, pause, stop)
+* Select time range of positions
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Dark mode map providers
+To use dark mode map providers [Stadia](https://stadiamaps.com/) you need to get an API key from their websites and add it to the `lib/utils/tile_providers.dart` file.

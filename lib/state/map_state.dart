@@ -14,7 +14,8 @@ class MapState extends InheritedWidget {
   final mapController = MapController();
   final scrollController = ScrollController();
 
-  final tileLayerProvider = ValueNotifier(TileLayerProvider.openStreetMap);
+  final tileLayerProvider =
+      ValueNotifier(TileLayerProvider.stadiaAlidadeSmoothDark);
 
   final devices = ValueNotifier(List<Devices>.empty());
   final positions = ValueNotifier(List<Position>.empty());

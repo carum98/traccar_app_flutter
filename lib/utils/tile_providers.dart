@@ -1,3 +1,5 @@
+const apikey = '';
+
 enum TileLayerProvider {
   openStreetMap(
     name: 'OpenStreetMap',
@@ -18,22 +20,12 @@ enum TileLayerProvider {
   stadiaAlidadeSmoothDark(
     name: 'Stadia Dark',
     urlTemplate:
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
+        'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=$apikey',
   ),
   stadiaAlidadeSmoothLight(
     name: 'Stadia Light',
     urlTemplate:
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth_light/{z}/{x}/{y}{r}.png',
-  ),
-  stadiaAlidadeSmoothDarkLabels(
-    name: 'Stadia Dark - Labels',
-    urlTemplate:
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark_labels/{z}/{x}/{y}{r}.png',
-  ),
-  stadiaAlidadeSmoothDarkNoLabels(
-    name: 'Stadia Dark - No Labels',
-    urlTemplate:
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark_nolabels/{z}/{x}/{y}{r}.png',
+        'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=$apikey',
   );
 
   const TileLayerProvider({

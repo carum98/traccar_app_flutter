@@ -6,6 +6,8 @@ import 'package:traccar_app/utils/tile_providers.dart';
 import 'package:traccar_app/models/devices.dart';
 import 'package:traccar_app/models/position.dart';
 
+import 'dart:math' as math;
+
 class TraccarMap extends StatelessWidget {
   const TraccarMap({
     super.key,
@@ -26,6 +28,7 @@ class TraccarMap extends StatelessWidget {
           valueListenable: state.tileLayerProvider,
           builder: (_, value, __) => TileLayer(
             urlTemplate: value.urlTemplate,
+            retinaMode: true,
           ),
         ),
         ValueListenableBuilder<List<Devices>>(
@@ -121,7 +124,7 @@ class MarkerCourse extends Marker {
           height: 20,
           point: LatLng(position.latitude, position.longitude),
           child: Transform.rotate(
-            angle: position.course,
+            angle: position.course * math.pi / 180,
             child: GestureDetector(
               onTap: onTap,
               child: Icon(
