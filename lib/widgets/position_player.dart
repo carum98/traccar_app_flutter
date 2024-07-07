@@ -19,15 +19,17 @@ class _PositionPlayerState extends State<PositionPlayer> {
   List<Position> positions = [];
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
 
-    state = MapState.of(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      state = MapState.of(context);
 
-    state.positions.addListener(() {
-      positions = state.positions.value
-          .where((item) => item.attributes.motion)
-          .toList();
+      state.positions.addListener(() {
+        positions = state.positions.value
+            .where((item) => item.attributes.motion)
+            .toList();
+      });
     });
   }
 
