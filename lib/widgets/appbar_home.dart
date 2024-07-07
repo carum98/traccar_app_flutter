@@ -29,12 +29,12 @@ class _AppbarHomeState extends State<AppbarHome> {
           itemBuilder: (BuildContext context) {
             return [
               const PopupMenuItem<String>(
-                value: 'logout',
-                child: Text('Logout'),
+                value: 'theme',
+                child: Text('Switch theme'),
               ),
               const PopupMenuItem<String>(
-                value: 'theme',
-                child: Text('Theme'),
+                value: 'logout',
+                child: Text('Logout'),
               ),
             ];
           },
