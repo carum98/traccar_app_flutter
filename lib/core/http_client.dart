@@ -27,6 +27,7 @@ class HttpBaseClient extends http.BaseClient {
       scheme: _baseUrl.scheme,
       host: _baseUrl.host,
       path: _baseUrl.path + url.path,
+      port: _baseUrl.port,
     );
   }
 
